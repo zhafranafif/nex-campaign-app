@@ -1,0 +1,37 @@
+rules_version = '2';
+
+service cloud.firestore {
+    match /databases/{database}/documents {
+        match /submissions/{submissionId} {
+            allow read: if request.auth != null
+                && (
+                    request.auth.token.role == "ops"
+                || (
+                    request.auth.token.role == "creator"
+                    && resource.data.creatorId == request.auth.uid
+                )
+            );
+
+            allow create: if request.auth != null
+                && request.auth.token.role == "creator"
+                && request.resource.data.creatorId == request.auth.uid
+                && !request.resource.data.keys().hasAny(["status"]);
+
+            allow update, delete: if false;
+        }
+
+        match /campaigns/{campaignsId}{
+            allow read: if request.auth != null && request.auth.token.role == "ops";
+
+            allow write: if false;
+        }
+
+        match /auditLogs/{logId} {
+            allow read, write: if false;
+        }
+
+        match /{document=**}{
+            allow read, write: if false;
+        }
+    }
+}
