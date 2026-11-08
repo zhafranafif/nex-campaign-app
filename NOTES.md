@@ -3,6 +3,8 @@
 2. create firestore rules and firestore rules testing
 3. Review Submission and Mark Paid functions with Audit Trail and Unit Testing
 4. Implement seeding with scripts
+5. Implement Auth Context with Provider for Authentication Feature
+6. Install and Setup Tailwind CSS for styling with their styling token
 
 ## STUB
-1. Still Figuring out and get a deep understanding about how Firestore Functions Unit Testing Implementation (current unit testing code actually from AI that help me)
+1. Planning and executing the Sign In and Dashboard UI (Already had a design)

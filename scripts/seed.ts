@@ -20,7 +20,7 @@ const seedUsers = async () => {
         try {
             await auth.getUsers(user.uid)
         } catch {
-            await auth.createUser({uid: user.uid, email: user.email, password: `${user.id}-password`});
+            await auth.createUser({uid: user.uid, email: user.email, password: `${user.uid}-password`});
         }
 
         await auth.setCustomUserClaims(user.uid, { role: user.role });
