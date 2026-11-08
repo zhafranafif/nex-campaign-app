@@ -1,75 +1,123 @@
-# React + TypeScript + Vite
+# Nex Campaign App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Nex Campaign App is a Firebase-powered campaign management platform for
+campaign operations teams and content creators. Operations users can review
+submissions, approve or reject deliverables, mark approved submissions as paid,
+import creator data from CSV files, and export monthly payout CSV files.
+Creators can view open campaigns, submit TikTok deliverables, and track their
+submission status.
 
-Currently, two official plugins are available:
+## Tech Stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- React 19
+- TypeScript
+- Vite
+- Tailwind CSS v4
+- React Router
+- Firebase Authentication
+- Cloud Firestore
+- Firebase Cloud Functions
+- Firebase Local Emulator Suite
+- i18next and react-i18next
+- Vitest
+- Papa Parse
+- Lucide React
+- Node.js 24
 
-## React Compiler
+## Prerequisites
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Node.js 24
+- npm
+- Firebase CLI
 
-## Expanding the ESLint configuration
+## Clone the Repository
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
+```powershell
+git clone https://github.com/zhafranafif/nex-campaign-app.git
+cd nex-campaign-app
 ```
 
-You can also install [eslint-plugin-react-x](https://npmx.dev/package/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://npmx.dev/package/eslint-plugin-react-dom) for React-specific lint rules:
+## Installation
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+Install the frontend dependencies:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```powershell
+npm install
+```
 
+Install the Cloud Functions dependencies:
+
+```powershell
+npm install --prefix functions
+```
+
+## Start the Firebase Emulators
+
+Seed the local database before starting the emulators:
+
+```powershell
+npm run seed
+```
+
+From the project root, run:
+
+```powershell
+npm run firebase:emulators
+```
+
+This starts the Authentication, Firestore, and Functions emulators for the
+`demo-nex-campaign-app` project.
+
+## Run the App
+
+In a separate terminal, run:
+
+```powershell
+npm run dev
+```
+
+Open the local URL printed by Vite, usually:
+
+```text
+http://localhost:5173
+```
+
+## Run the Tests
+
+Run the i18n translation-key parity test:
+
+```powershell
+npm run test:i18n
+```
+
+Run the Firestore security rules tests:
+
+```powershell
+npm run test:rules
+```
+
+Run the Cloud Functions tests:
+
+```powershell
+npm run test:functions
+```
+
+Run all three test groups:
+
+```powershell
+npm run test:i18n; npm run test:rules; npm run test:functions
+```
+
+## Build the Application
+
+Build the frontend:
+
+```powershell
+npm run build
+```
+
+Build the Cloud Functions:
+
+```powershell
+npm run build --prefix functions
 ```

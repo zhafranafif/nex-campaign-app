@@ -10,6 +10,7 @@ import {
   onCall,
   CallableRequest,
 } from "firebase-functions/v2/https";
+import { parseCsv } from "./util/csv-parse";
 
 initializeApp();
 
@@ -245,3 +246,86 @@ function isValidTiktokUrl(url: string): boolean {
     return false;
   }
 }
+
+export const importCsv = onCall(async (request) => {
+  requireOps(request, "import CSV");
+
+  const data = request.data as { csv: string };
+  if (typeof data.csv !== "string") {
+    throw new HttpsError("invalid-argument", "Invalid CSV data.");
+  }
+
+  const parsedData = parseCsv(data.csv);
+
+  const auditRef = getFirestore().collection("auditLogs").doc();  
+
+  await auditRef.set({
+    actorId: request.auth!.uid,
+    action: "csv_import",
+    importedCount: parsedData.validRows.length,
+    rejectedCount: parsedData.errors.length,
+    errors: parsedData.errors,
+    timestamp: FieldValue.serverTimestamp(),
+  })
+
+  return {
+    importedCount: parsedData.validRows.length,
+    rejectedCount: parsedData.errors.length,
+    errors: parsedData.errors,
+  };
+});
+
+export const exportCsv = onCall(async (request) => {
+  requireOps(request, "export CSV");
+
+  const monthStart = new Date(`${request.data.month}-01T00:00:00Z`);
+  if (isNaN(monthStart.getTime())) {
+    throw new HttpsError("invalid-argument", "Invalid month format.");
+  }
+
+  const nextMonthStart = new Date(monthStart);
+  nextMonthStart.setMonth(nextMonthStart.getMonth() + 1);
+
+  const snapshot = await getFirestore()
+    .collection("submissions")
+    .where("status", "==", "approved")
+    .where("createdAt", ">=", monthStart)
+    .where("createdAt", "<", nextMonthStart)
+    .get();
+
+  const payoutRows = await Promise.all(
+    snapshot.docs.map(async (doc) => {
+      const submission = doc.data();
+
+      const campaignRef = await getFirestore().collection("campaigns")
+      .doc(submission.campaignId).get();
+
+      if (!campaignRef.exists) {
+        throw new HttpsError(
+          "not-found",
+          `Campaign with ID ${submission.campaignId} does not exist.`,
+        );
+      }
+
+      const campaign = campaignRef.data()!;
+
+      return {
+        submissionId: doc.id,
+        campaignId: submission.campaignId,
+        campaignTitle: campaign.title,
+        creatorId: submission.creatorId,
+        tiktokUrl: submission.tiktokUrl,
+        amount: campaign.ratePerVideoTHB,
+      }
+    })
+  )
+
+  const csvHeader = "submissionId,campaignId,campaignTitle,creatorId,tiktokUrl,amount\n";
+  const csvRows = payoutRows.map(row => 
+    `${row.submissionId},${row.campaignId},"${row.campaignTitle}",${row.creatorId},${row.tiktokUrl},${row.amount}`
+  ).join("\n");
+
+  return {
+    csv: csvHeader + csvRows,
+  };
+});

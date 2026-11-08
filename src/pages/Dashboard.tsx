@@ -3,12 +3,14 @@ import Sidebar from '../components/Sidebar'
 import { useAuth } from '../hooks/useAuth'
 import OpsDashboard from './OpsDashboard'
 import CreatorDashboard from './CreatorDashboard'
+import { useTranslation } from 'react-i18next'
 
 const Dashboard: React.FC = () => {
   const {role, loading} = useAuth()
+  const { t } = useTranslation()
 
   if (loading) {
-    return <p>Loading...</p>
+    return <p>{t("common.loading")}</p>
   }
 
   return (

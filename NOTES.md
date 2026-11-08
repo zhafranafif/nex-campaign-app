@@ -7,7 +7,6 @@
 6. Install and Setup Tailwind CSS for styling with their styling token
 7. Implement Sign In with Authentication
 8. Implement Creator and Ops Dashboard with their functionality
-
-## STUB
-1. Research and Implement Import and Export CSV by Ops
-2. Research how to implement the language button globally
+9. Implement Import and Export CSV By Ops
+10. Implement i18n
+11. Write README.md for project documentation

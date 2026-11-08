@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "Campaign Management",
+    "logout": "Logout",
+    "logoAlt": "Nex logo"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "submissions": "Submissions",
+    "campaigns": "Campaigns",
+    "switchLanguage": "Switch language",
+    "switchTo": {
+      "en": "Switch to English",
+      "th": "Switch to Thai"
+    }
+  },
+  "auth": {
+    "welcome": "Welcome Back to Nex Entertainment",
+    "description": "Hotel Campaigns, Creator Deliverables & Settlement Terminal.",
+    "email": "Email",
+    "password": "Password",
+    "emailPlaceholder": "m@example.com",
+    "login": "Login",
+    "signingIn": "Signing in...",
+    "loginSuccess": "Successfully signed in!",
+    "loginError": "Failed to sign in. Please check your credentials and try again."
+  },
+  "dashboard": {
+    "loading": "Loading..."
+  },
+  "submission": {
+    "title": "My Submissions",
+    "submit": "Submit Video",
+    "tiktokUrl": "TikTok Video URL",
+    "tiktokUrlPlaceholder": "https://www.tiktok.com/@username",
+    "campaign": "Select Campaign",
+    "creatorTitle": "Welcome to the Creator Dashboard",
+    "uploadTitle": "Please Upload Your Creative Deliverables",
+    "loadingCampaigns": "Loading campaigns...",
+    "selectCampaign": "Select a campaign",
+    "noOpenCampaigns": "No open campaigns are currently available.",
+    "tryAgain": "Try again",
+    "submitting": "Submitting...",
+    "submission": "Submit",
+    "submissionSuccess": "Submission successful!",
+    "selectCampaignError": "Please select a campaign before submitting.",
+    "submissionError": "Failed to submit. Please try again.",
+    "loadingSubmissions": "Loading submissions...",
+    "noSubmissions": "You have not submitted any deliverables yet.",
+    "table": {
+      "campaign": "Campaign",
+      "url": "Submission URL",
+      "submitted": "Submitted",
+      "status": "Status"
+    },
+    "status": {
+      "pending": "Pending",
+      "approved": "Approved",
+      "rejected": "Rejected",
+      "paid": "Paid"
+    }
+  },
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "tryAgain": "Try again"
+  },
+  "ops": {
+    "title": "Welcome to the Ops Dashboard",
+    "importCsv": "Import CSV",
+    "payoutMonth": "Payout month",
+    "exportCsv": "Export CSV",
+    "exporting": "Exporting...",
+    "filterStatus": "Filter by status",
+    "filterCampaign": "Filter by campaign",
+    "creator": "Creator",
+    "actions": "Actions",
+    "noActions": "No actions",
+    "approve": "Approve",
+    "reject": "Reject",
+    "markPaid": "Mark paid",
+    "updating": "Updating...",
+    "loadingSubmissions": "Loading submissions...",
+    "noMatchingSubmissions": "No submissions match the selected filters.",
+    "importReport": "CSV Import Report",
+    "imported": "Imported",
+    "rejected": "Rejected",
+    "line": "Line",
+    "row": "Row {{row}}: {{reason}}",
+    "rejectionReason": "Please provide a reason for rejection:",
+    "paidSuccess": "Submission {{id}} has been marked as paid.",
+    "reviewSuccess": "Submission {{id}} has been {{action}}.",
+    "rejectionReasonRequired": "A reason is required when rejecting a submission.",
+    "updateError": "Failed to update submission. Please try again.",
+    "noFile": "No file selected.",
+    "importSuccess": "{{count}} rows imported.",
+    "importError": "CSV import failed. Please try again.",
+    "chooseMonth": "Choose a payout month first.",
+    "exportSuccess": "Payout CSV for {{month}} downloaded.",
+    "exportError": "CSV export failed. Please try again."
+  }
+}

@@ -1,0 +1,103 @@
+{
+  "app": {
+    "title": "การจัดการแคมเปญ",
+    "logout": "ออกจากระบบ",
+    "logoAlt": "โลโก้ Nex"
+  },
+  "navigation": {
+    "dashboard": "แดชบอร์ด",
+    "submissions": "ผลงานที่ส่ง",
+    "campaigns": "แคมเปญ",
+    "switchLanguage": "เปลี่ยนภาษา",
+    "switchTo": {
+      "en": "เปลี่ยนเป็นภาษาอังกฤษ",
+      "th": "เปลี่ยนเป็นภาษาไทย"
+    }
+  },
+  "auth": {
+    "welcome": "ยินดีต้อนรับกลับสู่ Nex Entertainment",
+    "description": "แคมเปญโรงแรม ผลงานครีเอเตอร์ และระบบจัดการการชำระเงิน",
+    "email": "อีเมล",
+    "password": "รหัสผ่าน",
+    "emailPlaceholder": "m@example.com",
+    "login": "เข้าสู่ระบบ",
+    "signingIn": "กำลังเข้าสู่ระบบ...",
+    "loginSuccess": "เข้าสู่ระบบสำเร็จ!",
+    "loginError": "เข้าสู่ระบบไม่สำเร็จ กรุณาตรวจสอบข้อมูลของคุณแล้วลองอีกครั้ง"
+  },
+  "dashboard": {
+    "loading": "กำลังโหลด..."
+  },
+  "submission": {
+    "title": "ผลงานของฉัน",
+    "submit": "ส่งวิดีโอ",
+    "tiktokUrl": "ลิงก์วิดีโอ TikTok",
+    "tiktokUrlPlaceholder": "https://www.tiktok.com/@username",
+    "campaign": "เลือกแคมเปญ",
+    "creatorTitle": "ยินดีต้อนรับสู่แดชบอร์ดครีเอเตอร์",
+    "uploadTitle": "กรุณาอัปโหลดผลงานของคุณ",
+    "loadingCampaigns": "กำลังโหลดแคมเปญ...",
+    "selectCampaign": "เลือกแคมเปญ",
+    "noOpenCampaigns": "ขณะนี้ไม่มีแคมเปญที่เปิดรับ",
+    "tryAgain": "ลองอีกครั้ง",
+    "submitting": "กำลังส่ง...",
+    "submission": "ส่งผลงาน",
+    "submissionSuccess": "ส่งผลงานสำเร็จ!",
+    "selectCampaignError": "กรุณาเลือกแคมเปญก่อนส่งผลงาน",
+    "submissionError": "ส่งผลงานไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "loadingSubmissions": "กำลังโหลดผลงาน...",
+    "noSubmissions": "คุณยังไม่มีผลงานที่ส่ง",
+    "table": {
+      "campaign": "แคมเปญ",
+      "url": "ลิงก์ผลงาน",
+      "submitted": "วันที่ส่ง",
+      "status": "สถานะ"
+    },
+    "status": {
+      "pending": "รอตรวจสอบ",
+      "approved": "อนุมัติแล้ว",
+      "rejected": "ไม่อนุมัติ",
+      "paid": "จ่ายเงินแล้ว"
+    }
+  },
+  "common": {
+    "loading": "กำลังโหลด...",
+    "save": "บันทึก",
+    "cancel": "ยกเลิก",
+    "tryAgain": "ลองอีกครั้ง"
+  },
+  "ops": {
+    "title": "ยินดีต้อนรับสู่แดชบอร์ด Ops",
+    "importCsv": "นำเข้า CSV",
+    "payoutMonth": "เดือนที่จ่ายเงิน",
+    "exportCsv": "ส่งออก CSV",
+    "exporting": "กำลังส่งออก...",
+    "filterStatus": "กรองตามสถานะ",
+    "filterCampaign": "กรองตามแคมเปญ",
+    "creator": "ครีเอเตอร์",
+    "actions": "การดำเนินการ",
+    "noActions": "ไม่มีการดำเนินการ",
+    "approve": "อนุมัติ",
+    "reject": "ไม่อนุมัติ",
+    "markPaid": "ทำเครื่องหมายว่าจ่ายแล้ว",
+    "updating": "กำลังอัปเดต...",
+    "loadingSubmissions": "กำลังโหลดผลงาน...",
+    "noMatchingSubmissions": "ไม่มีผลงานตรงกับตัวกรองที่เลือก",
+    "importReport": "รายงานการนำเข้า CSV",
+    "imported": "นำเข้าแล้ว",
+    "rejected": "ไม่ผ่านการตรวจสอบ",
+    "line": "บรรทัดที่",
+    "row": "แถวที่ {{row}}: {{reason}}",
+    "rejectionReason": "กรุณาระบุเหตุผลที่ไม่อนุมัติ:",
+    "paidSuccess": "ผลงาน {{id}} ถูกทำเครื่องหมายว่าจ่ายเงินแล้ว",
+    "reviewSuccess": "ผลงาน {{id}} ถูก{{action}}แล้ว",
+    "rejectionReasonRequired": "ต้องระบุเหตุผลเมื่อต้องการไม่อนุมัติผลงาน",
+    "updateError": "อัปเดตผลงานไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "noFile": "ไม่ได้เลือกไฟล์",
+    "importSuccess": "นำเข้าแล้ว {{count}} แถว",
+    "importError": "นำเข้า CSV ไม่สำเร็จ กรุณาลองอีกครั้ง",
+    "chooseMonth": "กรุณาเลือกเดือนที่จ่ายเงินก่อน",
+    "exportSuccess": "ดาวน์โหลด CSV การจ่ายเงินเดือน {{month}} แล้ว",
+    "exportError": "ส่งออก CSV ไม่สำเร็จ กรุณาลองอีกครั้ง"
+  }
+}

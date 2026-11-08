@@ -5,6 +5,7 @@ import type { SubmissionStatus } from '../services/serviceSubmission';
 import { useCampaign } from '../hooks/useCampaign';
 import { submitSubmission } from '../services/serviceSubmissionFunction';
 import toast from 'react-hot-toast';
+import { useTranslation } from 'react-i18next';
 
 const statusStyles: Record<SubmissionStatus, string> = {
   pending: "bg-(--secondary)/15 text-(--secondary)",
@@ -15,6 +16,7 @@ const statusStyles: Record<SubmissionStatus, string> = {
 
 const CreatorDashboard: React.FC = () => {
     const { user } = useAuth();
+    const { t } = useTranslation();
     const { creatorSubmissions, loading, error, refetch } = useCreatorSubmission(user?.uid || '');
     const { campaign, loading: campaignLoading, error: campaignError, refetch: refetchCampaign } = useCampaign();
     const [campaignId, setCampaignId] = React.useState<string>('');
@@ -25,7 +27,7 @@ const CreatorDashboard: React.FC = () => {
         event.preventDefault();
 
         if (!user || !campaignId) {
-            toast.error('Please select a campaign before submitting.');
+            toast.error(t('submission.selectCampaignError'));
             return;
         }
 
@@ -33,13 +35,13 @@ const CreatorDashboard: React.FC = () => {
 
         try {
             await submitSubmission(campaignId, user.uid, tiktokUrl.trim());
-            toast.success('Submission successful!');
+            toast.success(t('submission.submissionSuccess'));
             setCampaignId('');
             setTiktokUrl('');
             await refetch();
         } catch (error) {
             console.error('Error submitting TikTok URL:', error);
-            toast.error((error as Error).message || 'Failed to submit. Please try again.');
+            toast.error((error as Error).message || t('submission.submissionError'));
         } finally {
             setSubmitting(false);
         }
@@ -48,13 +50,13 @@ const CreatorDashboard: React.FC = () => {
     
   return (
     <section className="flex flex-col gap-4">
-      <h1 className="text-3xl font-semibold text-(--on-surface)">Welcome to the Creator Dashboard</h1>
+      <h1 className="text-3xl font-semibold text-(--on-surface)">{t('submission.creatorTitle')}</h1>
       
       <div className="w-full max-w-md rounded-3xl border border-white/[0.07] bg-(--surface-container-low) p-5 text-left shadow-[inset_0_1px_0_0_rgba(255,255,255,0.1)]">
         <h1
           className="m-0 font-(--font-headline) text-xl leading-8 tracking-[-0.015em] text-(--on-surface) mb-4"
         >
-          Please Upload Your Creative Deliverables
+          {t('submission.uploadTitle')}
         </h1>
         <form onSubmit={handleSubmit} className="grid gap-6">
           <div className="grid gap-2.5">
@@ -62,7 +64,7 @@ const CreatorDashboard: React.FC = () => {
               htmlFor="campaign"
               className="text-[13px] font-semibold leading-4.5 tracking-[0.02em] text-(--on-surface)"
             >
-              Campaign
+              {t('submission.campaign')}
             </label>
             <select
               id="campaign"
@@ -73,7 +75,7 @@ const CreatorDashboard: React.FC = () => {
               className="min-h-11 w-full rounded-xl border border-white/10 bg-(--color-input) px-3 py-2 text-sm leading-5 text-(--on-surface) outline-none placeholder:text-(--color-text-muted) focus:border-(--color-primary) focus:ring-4 focus:ring-(--accent-bg)"
             >
               <option value="" disabled>
-                {campaignLoading ? "Loading campaigns..." : "Select a campaign"}
+                {campaignLoading ? t('submission.loadingCampaigns') : t('submission.selectCampaign')}
               </option>
               {campaign.map((c) => (
                 <option key={c.id} value={c.id}>
@@ -89,13 +91,13 @@ const CreatorDashboard: React.FC = () => {
                   onClick={() => void refetchCampaign()}
                   className="rounded-full border border-(--outline-variant) px-3 py-1 text-(--on-surface) hover:border-(--primary)"
                 >
-                  Try again
+                  {t('submission.tryAgain')}
                 </button>
               </div>
             )}
             {!campaignLoading && !campaignError && campaign.length === 0 && (
               <p className="text-sm text-(--color-text-muted)">
-                No open campaigns are currently available.
+                {t('submission.noOpenCampaigns')}
               </p>
             )}
 
@@ -103,14 +105,14 @@ const CreatorDashboard: React.FC = () => {
               htmlFor="tiktokUrl"
               className="text-[13px] font-semibold leading-4.5 tracking-[0.02em] text-(--on-surface)"
             >
-              TikTok URL
+              {t('submission.tiktokUrl')}
             </label>
             <input
               type="url"
               id="tiktokUrl"
               value={tiktokUrl}
               onChange={(event) => setTiktokUrl(event.target.value)}
-              placeholder="https://www.tiktok.com/@username"
+              placeholder={t('submission.tiktokUrlPlaceholder')}
               autoComplete="url"
               required
               className="min-h-11 w-full rounded-xl border border-white/10 bg-(--color-input) px-3 py-2 text-sm leading-5 text-(--on-surface) outline-none placeholder:text-(--color-text-muted) focus:border-(--color-primary) focus:ring-4 focus:ring-(--accent-bg)"
@@ -121,7 +123,7 @@ const CreatorDashboard: React.FC = () => {
             disabled={submitting || campaignLoading || Boolean(campaignError) || !campaignId}
             className="mt-4 w-full rounded-full border-0 bg-linear-to-r from-(--color-primary) to-[#e01e5a] p-2 font-inherit text-sm font-semibold text-white shadow-[0_0_24px_-4px_rgba(255,46,99,0.35)] transition-transform hover:scale-[1.01] focus-visible:outline-2 focus-visible:outline-(--tertiary) focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {submitting ? "Submitting..." : "Submit"}
+            {submitting ? t('submission.submitting') : t('submission.submission')}
           </button>
         </form>
       </div>
@@ -130,17 +132,17 @@ const CreatorDashboard: React.FC = () => {
         <table className="w-full min-w-180 text-left text-sm">
           <thead className="bg-(--surface-container-low)">
             <tr className="border-b border-white/[0.07]">
-              <th className="p-4 font-medium text-(--color-text-muted)">Campaign</th>
-              <th className="p-4 font-medium text-(--color-text-muted)">Submission URL</th>
-              <th className="p-4 font-medium text-(--color-text-muted)">Submitted</th>
-              <th className="p-4 font-medium text-(--color-text-muted)">Status</th>
+              <th className="p-4 font-medium text-(--color-text-muted)">{t('submission.table.campaign')}</th>
+              <th className="p-4 font-medium text-(--color-text-muted)">{t('submission.table.url')}</th>
+              <th className="p-4 font-medium text-(--color-text-muted)">{t('submission.table.submitted')}</th>
+              <th className="p-4 font-medium text-(--color-text-muted)">{t('submission.table.status')}</th>
             </tr>
           </thead>
           <tbody>
             {loading && (
               <tr>
                 <td colSpan={4} className="p-8 text-center text-(--color-text-muted)">
-                  Loading submissions...
+                  {t('submission.loadingSubmissions')}
                 </td>
               </tr>
             )}
@@ -154,7 +156,7 @@ const CreatorDashboard: React.FC = () => {
                     onClick={() => void refetch()}
                     className="mt-3 rounded-full border border-(--outline-variant) px-4 py-2 text-sm text-(--on-surface) hover:border-(--primary)"
                   >
-                    Try again
+                    {t('submission.tryAgain')}
                   </button>
                 </td>
               </tr>
@@ -163,7 +165,7 @@ const CreatorDashboard: React.FC = () => {
             {!loading && !error && creatorSubmissions.length === 0 && (
               <tr>
                 <td colSpan={4} className="p-8 text-center text-(--color-text-muted)">
-                  You have not submitted any deliverables yet.
+                  {t('submission.noSubmissions')}
                 </td>
               </tr>
             )}
@@ -192,7 +194,7 @@ const CreatorDashboard: React.FC = () => {
                     <span
                       className={`inline-flex rounded-full px-2.5 py-1 text-xs font-semibold capitalize ${statusStyles[submission.status]}`}
                     >
-                      {submission.status}
+                      {t(`submission.status.${submission.status}`)}
                     </span>
                   </td>
                 </tr>
