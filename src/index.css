@@ -1,12 +1,48 @@
+@import "tailwindcss";
+
 :root {
+  --surface: #111317;
+  --surface-dim: #111317;
+  --surface-bright: #37393e;
+  --surface-container-lowest: #0c0e12;
+  --surface-container-low: #1a1c20;
+  --surface-container: #1e2024;
+  --surface-container-high: #282a2e;
+  --surface-container-highest: #333539;
+  --on-surface: #e2e2e8;
+  --on-surface-variant: #e5bdc0;
+  --inverse-surface: #e2e2e8;
+  --inverse-on-surface: #2f3035;
+  --outline: #ac888a;
+  --outline-variant: #5c3f42;
+  --surface-tint: #ffb2ba;
+  --primary: #ffb2ba;
+  --on-primary: #67001f;
+  --primary-container: #ff4f72;
+  --on-primary-container: #5b001a;
+  --inverse-primary: #bd0041;
+  --secondary: #e9c349;
+  --on-secondary: #3c2f00;
+  --secondary-container: #af8d11;
+  --on-secondary-container: #342800;
+  --tertiary: #00dce6;
+  --on-tertiary: #00373a;
+  --tertiary-container: #00a0a9;
+  --on-tertiary-container: #002f32;
+  --error: #ffb4ab;
+  --on-error: #690005;
+  --error-container: #93000a;
+  --on-error-container: #ffdad6;
+
   --color-primary: #ff2e63;
   --color-secondary: #d4af37;
-  --color-tertiary: #00e2fe;
-  --color-neutral: #f1f1f5;
-  --color-surface: #1f2025;
-  --color-surface-raised: #25262c;
-  --color-border: #34353d;
-  --color-text-muted: #a4a4ad;
+  --color-tertiary: #00f2fe;
+  --color-neutral: #f8fafc;
+  --color-surface: var(--surface);
+  --color-surface-raised: var(--surface-container-low);
+  --color-border: #272b35;
+  --color-text-muted: #94a3b8;
+  --color-input: #161920;
 
   --font-headline: 'Plus Jakarta Sans', 'Segoe UI', sans-serif;
   --font-body: Inter, 'Segoe UI', sans-serif;
@@ -14,42 +50,32 @@
 
   --text: var(--color-text-muted);
   --text-h: var(--color-neutral);
-  --bg: var(--color-surface);
+  --bg: var(--surface);
   --border: var(--color-border);
-  --code-bg: var(--color-surface-raised);
+  --code-bg: var(--surface-container);
   --accent: var(--color-primary);
-  --accent-bg: color-mix(in srgb, var(--color-primary) 10%, transparent);
-  --accent-border: color-mix(in srgb, var(--color-primary) 50%, transparent);
-  --social-bg: color-mix(in srgb, var(--color-surface-raised) 50%, transparent);
+  --accent-bg: rgba(255, 46, 99, 0.15);
+  --accent-border: rgba(255, 46, 99, 0.25);
+  --social-bg: rgba(24, 27, 34, 0.85);
   --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.1),
+    0 0 24px -4px rgba(255, 46, 99, 0.15);
 
   --sans: var(--font-body);
   --heading: var(--font-headline);
   --mono: var(--font-label);
 
-  font: 18px/145% var(--sans);
-  letter-spacing: 0.18px;
-  color-scheme: light dark;
-  color: var(--text);
-  background: var(--bg);
+  font: 16px/24px var(--font-body);
+  color-scheme: dark;
+  color: var(--on-surface);
+  background: var(--surface);
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-
-  @media (max-width: 1024px) {
-    font-size: 16px;
-  }
 }
 
 #root {
-  width: 1200px;
-  max-width: 100%;
-  margin: 0 auto;
-  text-align: center;
-  border-inline: 1px solid var(--border);
-  min-height: 100svh;
   display: flex;
   flex-direction: column;
   box-sizing: border-box;

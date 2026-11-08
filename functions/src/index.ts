@@ -181,3 +181,67 @@ export const markPaid = onCall(async (request) => {
       : `Submission ${submissionId} was already paid.`,
   };
 });
+
+export const submitSubmission = onCall(async (request) => {
+  if (!request.auth) {
+    throw new HttpsError("unauthenticated", "Authentication is required.");
+  }
+
+  if (request.auth.token.role !== "creator") {
+    throw new HttpsError(
+      "permission-denied",
+      "Only users with the 'creator' role can submit submissions.",
+    );
+  }
+
+  const { campaignId, tiktokUrl } = request.data
+
+  if (
+    typeof campaignId !== "string" ||
+    typeof tiktokUrl !== "string" ||
+    !isValidTiktokUrl(tiktokUrl)
+  ) {
+    throw new HttpsError(
+      "invalid-argument",
+      "Invalid campaign or TikTok URL."
+    );
+  }
+
+  const campaignRef = getFirestore().collection("campaigns").doc(campaignId);
+  const campaign = await campaignRef.get();
+
+  if (!campaign.exists || campaign.data()?.status !== "open") {
+    throw new HttpsError(
+      "failed-precondition",
+      `Campaign with ID ${campaignId} does not exist or is not open.`,
+    );
+  }
+
+  const submissionRef = getFirestore().collection("submissions").doc();
+  await submissionRef.set({
+    campaignId,
+    creatorId: request.auth.uid,
+    tiktokUrl,
+    status: "pending",
+    createdAt: FieldValue.serverTimestamp(),
+  });
+
+  return {
+    message: `Submission ${submissionRef.id} has been created.`,
+  }
+})
+
+function isValidTiktokUrl(url: string): boolean {
+  try {
+    const parsedUrl = new URL(url);
+
+    return (
+      parsedUrl.protocol === "https:" &&
+      ["www.tiktok.com", "tiktok.com", "m.tiktok.com", "vm.tiktok.com"].includes(
+        parsedUrl.hostname,
+      )
+    );
+  } catch {
+    return false;
+  }
+}

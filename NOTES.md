@@ -5,6 +5,9 @@
 4. Implement seeding with scripts
 5. Implement Auth Context with Provider for Authentication Feature
 6. Install and Setup Tailwind CSS for styling with their styling token
+7. Implement Sign In with Authentication
+8. Implement Creator and Ops Dashboard with their functionality
 
 ## STUB
-1. Planning and executing the Sign In and Dashboard UI (Already had a design)
+1. Research and Implement Import and Export CSV by Ops
+2. Research how to implement the language button globally

@@ -20,8 +20,15 @@ service cloud.firestore {
             allow update, delete: if false;
         }
 
-        match /campaigns/{campaignsId}{
-            allow read: if request.auth != null && request.auth.token.role == "ops";
+        match /campaigns/{campaignId}{
+            allow read: if request.auth != null
+                && (
+                request.auth.token.role == "ops"
+                || (
+                    request.auth.token.role == "creator"
+                    && resource.data.status == "open"
+                )
+                );
 
             allow write: if false;
         }
