@@ -93,6 +93,17 @@ Open the local URL printed by Vite, usually:
 http://localhost:5173
 ```
 
+## Sign In to the Dashboard
+
+You can use some credential such as 
+
+```powershell
+email: a@example.com 
+password: creator-a-password
+```
+
+Before proceeding to the dashboard
+
 ## Run the Tests
 
 Run the i18n translation-key parity test:
