@@ -1,6 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth";
 import { useTranslation } from "react-i18next";
+import Loader from "./Loader";
 
 const ProtectedRoute = () => {
   const { user, loading } = useAuth();
@@ -8,7 +9,7 @@ const ProtectedRoute = () => {
   const location = useLocation();
 
   if (loading) {
-    return <p>{t("common.loading")}</p>;
+    return <Loader text={t("common.loading")} />;
   }
 
   if (!user) {

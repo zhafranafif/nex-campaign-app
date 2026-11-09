@@ -4,9 +4,10 @@ import type { SubmissionStatus } from "../services/serviceSubmission";
 import toast from "react-hot-toast";
 import { reviewSubmission } from "../services/serviceSubmissionFunction";
 import { markPaid } from "../services/servicePaidFunction";
-import { Calendar, ChevronDown, Download, Upload } from "lucide-react";
+import { Calendar, ChevronDown, Download, Upload, X } from "lucide-react";
 import { exportCsv, importCsv, type ImportCsvResponse } from "../services/serviceCsvFunction";
 import { useTranslation } from "react-i18next";
+import Loader from "../components/Loader";
 
 const STATUS_FILTERS: Array<{ value: "all" | SubmissionStatus; label: string }> = [
   { value: "all", label: "filterStatus" },
@@ -32,6 +33,7 @@ const OpsDashboard = () => {
   const [importedCsvData, setImportedCsvData] = useState<ImportCsvResponse | null>(null);
   const [payoutMonth, setPayoutMonth] = useState<string>("");
   const [exportingCsv, setExportingCsv] = useState(false);
+  const [closeImportReport, setCloseImportReport] = useState(false);
 
   const campaigns = useMemo(
     () => [...new Set(submissions.map((submission) => submission.campaignId))].sort(),
@@ -92,6 +94,7 @@ const OpsDashboard = () => {
     try {
       const report = await importCsv(file);
       setImportedCsvData(report);
+      setCloseImportReport(false);
       toast.success(t("ops.importSuccess", { count: report.importedCount }));
     } catch (error) {
       console.error("Error importing CSV:", error);
@@ -176,7 +179,14 @@ const OpsDashboard = () => {
                 className="inline-flex h-9 items-center gap-2 rounded-lg border border-white/10 bg-(--surface-container-low) px-3 text-xs font-medium text-(--on-surface-variant) transition-colors hover:border-(--primary) hover:text-(--on-surface) disabled:cursor-not-allowed disabled:opacity-40"
                 >
                 <Download aria-hidden="true" className="size-3.5" />
-                {exportingCsv ? t("ops.exporting") : t("ops.exportCsv")}
+                {exportingCsv && (
+                  <Loader
+                    className="size-3.5"
+                    containerClassName="inline-flex h-auto"
+                    text={t("ops.exporting")}
+                  />
+                )}
+                {!exportingCsv && t("ops.exportCsv")}
             </button>
         </div>
 
@@ -239,7 +249,11 @@ const OpsDashboard = () => {
             {loading && (
               <tr>
                 <td colSpan={6} className="p-8 text-center text-(--color-text-muted)">
-                  {t("ops.loadingSubmissions")}
+                  <Loader
+                    className="size-8"
+                    containerClassName="h-20"
+                    text={t("ops.loadingSubmissions")}
+                  />
                 </td>
               </tr>
             )}
@@ -306,7 +320,14 @@ const OpsDashboard = () => {
                           className="rounded-full border border-emerald-500/40 px-4 py-2 text-sm text-emerald-400 hover:bg-emerald-500/15 disabled:cursor-not-allowed disabled:opacity-50"
                           onClick={() => void handleActions(submission.id, "approved")}
                         >
-                          {actionId === submission.id ? t("ops.updating") : t("ops.approve")}
+                          {actionId === submission.id && (
+                            <Loader
+                              className="size-4"
+                              containerClassName="inline-flex h-auto"
+                              text={t("ops.updating")}
+                            />
+                          )}
+                          {actionId !== submission.id && t("ops.approve")}
                         </button>
                         <button
                           type="button"
@@ -325,7 +346,14 @@ const OpsDashboard = () => {
                         className="rounded-full border border-(--secondary)/40 px-4 py-2 text-sm text-(--secondary) hover:bg-(--secondary)/15 disabled:cursor-not-allowed disabled:opacity-50"
                         onClick={() => void handleActions(submission.id, "paid")}
                       >
-                        {actionId === submission.id ? t("ops.updating") : t("ops.markPaid")}
+                        {actionId === submission.id && (
+                          <Loader
+                            className="size-4"
+                            containerClassName="inline-flex h-auto"
+                            text={t("ops.updating")}
+                          />
+                        )}
+                        {actionId !== submission.id && t("ops.markPaid")}
                       </button>
                     )}
                     {(submission.status === "rejected" || submission.status === "paid") && (
@@ -338,9 +366,18 @@ const OpsDashboard = () => {
         </table>
       </div>
 
-      {importedCsvData && (
-        <div className="mt-4 rounded-lg border border-white/[0.07] bg-(--surface-container-low) p-4">
-          <h2 className="mb-2 text-lg font-semibold text-(--on-surface)">{t("ops.importReport")}</h2>
+      {importedCsvData && !closeImportReport && (
+        <div className="relative mt-4 rounded-lg border border-white/[0.07] bg-(--surface-container-low) p-4">
+          <button
+            type="button"
+            aria-label={t("common.close")}
+            title={t("common.close")}
+            className="absolute right-3 top-3 inline-flex size-8 items-center justify-center rounded-full text-(--color-primary) cursor-pointer transition-colors hover:bg-white/10 hover:text-(--on-surface) focus-visible:outline-2 focus-visible:outline-(--tertiary) focus-visible:outline-offset-2"
+            onClick={() => setCloseImportReport(true)}
+          >
+            <X aria-hidden="true" className="size-4" />
+          </button>
+          <h2 className="mb-2 pr-10 text-lg font-semibold text-(--on-surface)">{t("ops.importReport")}</h2>
           <p>{t("ops.imported")}: {importedCsvData.importedCount}</p>
           <p>{t("ops.rejected")}: {importedCsvData.rejectedCount}</p>
           <ul>

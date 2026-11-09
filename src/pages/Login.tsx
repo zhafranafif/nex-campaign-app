@@ -4,6 +4,7 @@ import { useAuth } from "../hooks/useAuth";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import LanguageSwitcher from "../components/LanguageButton";
+import Loader from "../components/Loader";
 
 type LoginLocationState = {
   from?: {
@@ -99,7 +100,14 @@ const Login = () => {
             disabled={submitting}
             className="min-h-11 rounded-full border-0 bg-linear-to-r from-(--color-primary) to-[#e01e5a] px-5 font-inherit text-sm font-semibold text-white shadow-[0_0_24px_-4px_rgba(255,46,99,0.35)] transition-transform hover:scale-[1.01] focus-visible:outline-2 focus-visible:outline-(--tertiary) focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {submitting ? t("auth.signingIn") : t("auth.login")}
+            {submitting && (
+              <Loader
+                className="size-4"
+                containerClassName="inline-flex h-auto"
+                text={t("auth.signingIn")}
+              />
+            )}
+            {!submitting && t("auth.login")}
           </button>
         </form>
       </section>

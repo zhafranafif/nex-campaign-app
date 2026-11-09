@@ -6,6 +6,7 @@ import { useCampaign } from '../hooks/useCampaign';
 import { submitSubmission } from '../services/serviceSubmissionFunction';
 import toast from 'react-hot-toast';
 import { useTranslation } from 'react-i18next';
+import Loader from '../components/Loader';
 
 const statusStyles: Record<SubmissionStatus, string> = {
   pending: "bg-(--secondary)/15 text-(--secondary)",
@@ -83,6 +84,13 @@ const CreatorDashboard: React.FC = () => {
                 </option>
               ))}
             </select>
+            {campaignLoading && (
+              <Loader
+                className="size-4"
+                containerClassName="justify-start h-auto text-sm text-(--color-text-muted)"
+                text={t('submission.loadingCampaigns')}
+              />
+            )}
             {campaignError && (
               <div className="flex items-center justify-between gap-3 text-sm text-(--error)">
                 <span>{campaignError}</span>
@@ -123,7 +131,14 @@ const CreatorDashboard: React.FC = () => {
             disabled={submitting || campaignLoading || Boolean(campaignError) || !campaignId}
             className="mt-4 w-full rounded-full border-0 bg-linear-to-r from-(--color-primary) to-[#e01e5a] p-2 font-inherit text-sm font-semibold text-white shadow-[0_0_24px_-4px_rgba(255,46,99,0.35)] transition-transform hover:scale-[1.01] focus-visible:outline-2 focus-visible:outline-(--tertiary) focus-visible:outline-offset-2 disabled:cursor-not-allowed disabled:opacity-60"
           >
-            {submitting ? t('submission.submitting') : t('submission.submission')}
+            {submitting && (
+              <Loader
+                className="size-4"
+                containerClassName="inline-flex h-auto"
+                text={t('submission.submitting')}
+              />
+            )}
+            {!submitting && t('submission.submission')}
           </button>
         </form>
       </div>
@@ -142,7 +157,11 @@ const CreatorDashboard: React.FC = () => {
             {loading && (
               <tr>
                 <td colSpan={4} className="p-8 text-center text-(--color-text-muted)">
-                  {t('submission.loadingSubmissions')}
+                  <Loader
+                    className="size-8"
+                    containerClassName="h-20"
+                    text={t('submission.loadingSubmissions')}
+                  />
                 </td>
               </tr>
             )}
@@ -175,7 +194,7 @@ const CreatorDashboard: React.FC = () => {
               && creatorSubmissions.map((submission) => (
                 <tr key={submission.id} className="border-t border-white/[0.07]">
                   <td className="p-4 font-medium text-(--on-surface)">
-                    {submission.campaignId}
+                    {campaign.find((c) => c.id === submission.campaignId)?.title || submission.campaignId}
                   </td>
                   <td className="p-4">
                     <a
